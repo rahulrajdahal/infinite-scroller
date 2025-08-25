@@ -2,6 +2,7 @@ const baseURL = "https://jsonplaceholder.typicode.com/todos";
 
 let offset = 0;
 let limit = 10;
+let dataLoaded = 0;
 
 let loading = false;
 
@@ -12,6 +13,7 @@ const fetchTodos = async () => {
     const todos = await response.json();
 
     loading = false;
+    dataLoaded += 10;
     return displayTodos(todos.slice(offset, limit));
   } catch (error) {
     loading = false;
@@ -23,7 +25,7 @@ const fetchTodos = async () => {
 (async () => {
   try {
     await fetchTodos();
-  } catch (error) {
+  } catch {
     throw new Error("Error fetching todos");
   }
 })();
@@ -31,6 +33,7 @@ const fetchTodos = async () => {
 const todosContainer = document.querySelector(".scroll_items_container");
 
 const displayTodos = (todos) => {
+  const dataLoadedDisplay = document.querySelector(".data__data__loaded");
   const moreTodoItem = document.querySelector(".more_todo");
   if (moreTodoItem) {
     todosContainer.removeChild(moreTodoItem);
@@ -46,6 +49,8 @@ const displayTodos = (todos) => {
   const moreTodo = document.createElement("li");
   moreTodo.classList.add("more_todo");
   todosContainer.appendChild(moreTodo);
+
+  dataLoadedDisplay.innerHTML = dataLoaded;
 
   if (loading) {
     moreTodo.innerHTML = "Loading...";

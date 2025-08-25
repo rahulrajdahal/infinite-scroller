@@ -39,6 +39,12 @@
   list-style: none;
   min-height: 2rem;
 }
+
+.data__container {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
 /* 
 <div class="scroller-options">
         <div class="input-group">
